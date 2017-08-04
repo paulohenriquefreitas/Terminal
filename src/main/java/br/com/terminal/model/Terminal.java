@@ -1,8 +1,10 @@
 package br.com.terminal.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -10,17 +12,19 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Terminal {
 	
-	private Integer logic;
+	private int logic;
 	private String serial;
 	private String model;
-	private Integer sam;
+	private int sam;
 	private String ptid;
-	private Integer plat;
+	private int plat;
 	private String version;
-	private Integer mxr;
-	private Integer mxf;
+	private int mxr;
+	private int mxf;
 	private String VERFM;	
 
 }
