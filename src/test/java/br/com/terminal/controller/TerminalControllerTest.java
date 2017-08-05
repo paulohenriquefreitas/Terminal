@@ -1,9 +1,12 @@
 package br.com.terminal.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.OK;
+
+import java.util.Arrays;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,18 +29,51 @@ public class TerminalControllerTest {
 	private TerminalService terminalService;
 	
 	@Test
-	public void test_success() throws Exception {
+	public void test_save_success() throws Exception {
 		Terminal expectedTerminal = mock(Terminal.class);
 		when(terminalService.save(REQUEST)).thenReturn(expectedTerminal);
-		assertEquals(expectedTerminal, terminalController.post(REQUEST).getBody());
-		assertEquals(OK, terminalController.post(REQUEST).getStatusCode());
+		assertEquals(expectedTerminal, terminalController.save(REQUEST).getBody());
+		assertEquals(OK, terminalController.save(REQUEST).getStatusCode());
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void test_error_when_save() throws Exception {
 		when(terminalService.save(REQUEST)).thenThrow(new RuntimeException());
-		terminalController.post(REQUEST);
+		terminalController.save(REQUEST);
 		
+	}
+	
+	@Test
+	public void test_getAll_success() throws Exception {
+		Terminal expectedTerminal = mock(Terminal.class);
+		when(terminalService.getAll()).thenReturn(Arrays.asList(expectedTerminal));
+		assertEquals(1, terminalService.getAll().size());
+	}
+	
+	@Test
+	public void test_getAll_fail() throws Exception {
+		when(terminalService.getAll()).thenReturn(Arrays.asList());
+		assertEquals(0, terminalService.getAll().size());
+	}
+	
+	@Test
+	public void test_findById_success() throws Exception {
+		Terminal expectedTerminal = mock(Terminal.class);
+		when(terminalService.findById(10)).thenReturn(expectedTerminal);
+		assertEquals(expectedTerminal, terminalService.findById(10));
+	}
+	
+	@Test
+	public void test_findById_fail() throws Exception {
+		Terminal expectedTerminal = mock(Terminal.class);
+		when(terminalService.findById(11)).thenReturn(expectedTerminal);
+		assertNotEquals(expectedTerminal, terminalService.findById(10));
+	}
+	
+	@Test
+	public void test_update_success() throws Exception {
+		String json = "{'logic':10}";
+		assertNotEquals(OK, terminalService.update(json, 10));
 	}
 }
 
