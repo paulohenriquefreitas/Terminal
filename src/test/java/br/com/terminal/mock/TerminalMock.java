@@ -21,5 +21,14 @@ public class TerminalMock {
 
 		return json;
 	}
+	
+	public static String createIncompleteTerminalJson() {
+
+		String json = "{\"serial\":\"123\"," + "\"model\":\"PWD\","
+				+ "\"sam\":0," + "\"ptid\":\"FERHT\"," + "\"plat\":4," + "\"version\":\"8.00b8\","
+				+ "\"mxr\":0," + "\"mxf\":58468," + "\"VERFM\":\"PWD\"}";
+
+		return json;
+	}
 
 }
