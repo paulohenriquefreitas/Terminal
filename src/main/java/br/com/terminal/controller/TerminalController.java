@@ -1,6 +1,7 @@
 package br.com.terminal.controller;
 
 import java.io.IOException;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class TerminalController {
 				.parseTerminalToJson(TerminalConverter
 						.getTerminalFromString(request));
 		schemaValidation(requestJson);
+
 		return new ResponseEntity<>(terminalService.save(request), HttpStatus.OK) ;		
 	}
 	
@@ -73,5 +75,5 @@ public class TerminalController {
 		}
 		return null;
 	}
-	
+
 }
