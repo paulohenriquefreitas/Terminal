@@ -8,12 +8,15 @@ import static org.springframework.http.HttpStatus.OK;
 
 import java.util.Arrays;
 
+import br.com.terminal.utils.JsonHandler;
+import br.com.terminal.utils.TerminalConverter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import br.com.terminal.mock.TerminalMock;
 import br.com.terminal.model.Terminal;
 import br.com.terminal.service.TerminalService;
 
@@ -30,17 +33,17 @@ public class TerminalControllerTest {
 	
 	@Test
 	public void test_save_success() throws Exception {
-		Terminal expectedTerminal = mock(Terminal.class);
-		when(terminalService.save(REQUEST)).thenReturn(expectedTerminal);
-		assertEquals(expectedTerminal, terminalController.save(REQUEST).getBody());
+		Terminal expectedTerminal = TerminalConverter.getTerminalFromString(REQUEST);
+		when(terminalService.save(TerminalConverter
+				.getTerminalFromString(REQUEST))).thenReturn(JsonHandler.parseTerminalToJson(expectedTerminal));
 		assertEquals(OK, terminalController.save(REQUEST).getStatusCode());
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void test_error_when_save() throws Exception {
-		when(terminalService.save(REQUEST)).thenThrow(new RuntimeException());
+		when(terminalService.save(TerminalConverter
+				.getTerminalFromString(REQUEST))).thenThrow(new RuntimeException());
 		terminalController.save(REQUEST);
-		
 	}
 	
 	@Test

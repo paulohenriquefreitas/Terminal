@@ -9,12 +9,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.terminal.utils.JsonHandler;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import br.com.terminal.model.Terminal;
 
-public class TerminalDaoImpl implements TerminalDao{
+public class TerminalDaoImpl implements TerminalDao {
 	
 	private static final Log LOG = LogFactory.getLog(TerminalDaoImpl.class);
 	private static final String DB_DRIVER = "org.h2.Driver";
@@ -23,7 +25,7 @@ public class TerminalDaoImpl implements TerminalDao{
     private static final String DB_PASSWORD = "";
 
 	@Override
-	public void save(Terminal terminal) {
+	public String save(Terminal terminal) throws JsonProcessingException{
 		PreparedStatement pstmt = null;
 		try {
 			Connection conn = getConnection();
@@ -62,12 +64,17 @@ public class TerminalDaoImpl implements TerminalDao{
 				pstmt.close();
 				st.close();
 				conn.close();
-				
+				return JsonHandler.parseTerminalToJson(terminal);
 			}
 		} catch (SQLException ex) {
 			LOG.error("An Exception occurred when save data. " + ex);
-		}		
-	}	
+			return ex.getMessage();
+		}catch (Exception ex) {
+            LOG.error("An Exception occurred when save data. " + ex);
+            return ex.getMessage();
+        }
+        return null;
+    }
 
 	@Override
 	public List<Terminal> getAll() {
@@ -96,7 +103,7 @@ public class TerminalDaoImpl implements TerminalDao{
 			}
 		} catch (SQLException ex) {
 			LOG.error("An Exception occurred when find alls datas. " + ex);
-		}		
+		}
 		return terminalList;
 	}
 
@@ -148,7 +155,7 @@ public class TerminalDaoImpl implements TerminalDao{
 	}
 
 	@Override
-	public void update(Terminal terminal, int logicId) {
+	public String update(Terminal terminal, int logicId) throws JsonProcessingException {
 		PreparedStatement pstmt = null;
 		try {
 			Connection conn = getConnection();
@@ -173,11 +180,18 @@ public class TerminalDaoImpl implements TerminalDao{
 				pstmt.close();
 				st.close();
 				conn.close();
+
+                return JsonHandler.parseTerminalToJson(terminal);
 				
 			}
 		} catch (SQLException ex) {
-			LOG.error("An Exception occurred when save data. " + ex);
-		}	
+            LOG.error("An Exception occurred when update data. " + ex);
+            return ex.toString();
+        }catch (Exception ex) {
+            LOG.error("An Exception occurred when update data. " + ex);
+            return ex.toString();
+        }
+        return null;
 	}
 
 }

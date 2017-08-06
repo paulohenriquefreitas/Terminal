@@ -11,6 +11,7 @@
 *.zip
 *.tar.gz
 *.rar
+*.iml
 
 target/
 .settings/
@@ -19,3 +20,4 @@ target/
 
 #Ignore IntelliJ files
 .idea
+

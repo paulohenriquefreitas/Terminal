@@ -1,13 +1,9 @@
 package br.com.terminal.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 @Getter
 @Setter
@@ -16,6 +12,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE,
+setterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE,
+isGetterVisibility = JsonAutoDetect.Visibility.NONE)
 public class Terminal {
 	
 	private int logic;
@@ -27,6 +26,6 @@ public class Terminal {
 	private String version;
 	private int mxr;
 	private int mxf;
-	private String VERFM;	
+	private String VERFM;
 
 }

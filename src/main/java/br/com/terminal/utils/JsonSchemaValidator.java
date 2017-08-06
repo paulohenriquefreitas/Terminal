@@ -3,6 +3,10 @@ package br.com.terminal.utils;
 import java.io.File;
 import java.io.IOException;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JsonLoader;
@@ -18,16 +22,15 @@ public class JsonSchemaValidator {
 	public static final String JSON_V4_SCHEMA_IDENTIFIER = "http://json-schema.org/draft-04/schema#";
 	public static final String JSON_SCHEMA_IDENTIFIER_ELEMENT = "$schema";
 
-	public ProcessingReport getProcessingReport(String request) throws IOException, ProcessingException {
-		File schemaFile = getCustomerFileReader.apply("schema.json");
-		try {
-			return isJsonValid(getSchemaNode(schemaFile), getJsonNode(request));
-		} catch (IOException e) {
-			throw e;
-		} catch (ProcessingException e) {
-			throw e;
-		}
 
+	public ProcessingReport schemaValidation(String requestJson) throws IOException, ProcessingException  {
+		return  new JsonSchemaValidator().getProcessingReport(requestJson);
+
+	}
+
+	public ProcessingReport getProcessingReport(String request) throws IOException, ProcessingException {
+		File biosampleFile = ResourceUtils.getFile("src/main/resources/schema.json");
+			return isJsonValid(getSchemaNode(biosampleFile), getJsonNode(request));
 	}
 
 	public static JsonNode getJsonNode(String jsonText) throws IOException {
