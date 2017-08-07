@@ -52,12 +52,12 @@ public class TerminalController {
             if(pr.isSuccess()){
                 return new ResponseEntity<String>(terminalService.save(terminalFromString),HttpStatus.OK) ;
             }else {
-                return new ResponseEntity<String>(new Gson().toJson(sb.toString()),HttpStatus.OK) ;
+                return new ResponseEntity<String>(new Gson().toJson(sb.toString()),HttpStatus.BAD_REQUEST) ;
             }
         } catch (IOException e) {
-            return new ResponseEntity<String>(e.toString(),HttpStatus.OK) ;
+            return new ResponseEntity<String>(e.toString(),HttpStatus.INTERNAL_SERVER_ERROR) ;
         } catch (ProcessingException e) {
-            return new ResponseEntity<String>(e.toString(),HttpStatus.OK) ;
+            return new ResponseEntity<String>(e.toString(),HttpStatus.INTERNAL_SERVER_ERROR) ;
         }
 	}
 	
@@ -83,12 +83,12 @@ public class TerminalController {
 			if(pr.isSuccess()){
                 return new ResponseEntity<String>(terminalService.update(request,logicId),HttpStatus.OK) ;
             }else {
-                return new ResponseEntity<String>(sb.toString(),HttpStatus.OK) ;
+                return new ResponseEntity<String>(sb.toString(),HttpStatus.BAD_REQUEST) ;
             }
 		} catch (IOException e) {
-            return new ResponseEntity<String>(e.toString(),HttpStatus.OK) ;
+            return new ResponseEntity<String>(e.toString(),HttpStatus.INTERNAL_SERVER_ERROR) ;
 		} catch (ProcessingException e) {
-            return new ResponseEntity<String>(e.toString(),HttpStatus.OK) ;
+            return new ResponseEntity<String>(e.toString(),HttpStatus.INTERNAL_SERVER_ERROR) ;
 		}
 	}
 
