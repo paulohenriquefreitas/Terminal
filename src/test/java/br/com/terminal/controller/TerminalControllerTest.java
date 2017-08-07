@@ -33,15 +33,15 @@ public class TerminalControllerTest {
 	
 	@Test
 	public void test_save_success() throws Exception {
-		Terminal expectedTerminal = TerminalConverter.getTerminalFromString(REQUEST);
-		when(terminalService.save(TerminalConverter
+		Terminal expectedTerminal = new TerminalConverter().getTerminalFromString(REQUEST);
+		when(terminalService.save(new TerminalConverter()
 				.getTerminalFromString(REQUEST))).thenReturn(JsonHandler.parseTerminalToJson(expectedTerminal));
 		assertEquals(OK, terminalController.save(REQUEST).getStatusCode());
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void test_error_when_save() throws Exception {
-		when(terminalService.save(TerminalConverter
+		when(terminalService.save(new TerminalConverter()
 				.getTerminalFromString(REQUEST))).thenThrow(new RuntimeException());
 		terminalController.save(REQUEST);
 	}

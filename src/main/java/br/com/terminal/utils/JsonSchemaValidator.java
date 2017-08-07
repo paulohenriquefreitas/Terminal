@@ -43,14 +43,6 @@ public class JsonSchemaValidator {
 		return customer;
 	};
 
-	public static void validateJson(JsonSchema jsonSchemaNode, JsonNode jsonNode) throws ProcessingException {
-		ProcessingReport report = jsonSchemaNode.validate(jsonNode);
-		if (!report.isSuccess()) {
-			for (ProcessingMessage processingMessage : report) {
-				throw new ProcessingException(processingMessage);
-			}
-		}
-	}
 
 	public static ProcessingReport isJsonValid(JsonSchema jsonSchemaNode, JsonNode jsonNode)
 			throws ProcessingException {

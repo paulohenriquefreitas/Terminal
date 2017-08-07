@@ -11,6 +11,7 @@ import java.util.List;
 
 import br.com.terminal.utils.JsonHandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.Gson;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -53,12 +54,12 @@ public class TerminalDaoImpl implements TerminalDao {
 				pstmt.setInt(1, terminal.getLogic());
 				pstmt.setString(2, terminal.getSerial());
 				pstmt.setString(3, terminal.getModel());
-				pstmt.setInt(4, terminal.getSam());
+				pstmt.setObject(4, terminal.getSam() != null ? terminal.getSam() : null);
 				pstmt.setString(5, terminal.getPtid());
-				pstmt.setInt(6, terminal.getPlat());
+				pstmt.setObject(6, terminal.getPlat() != null ? terminal.getPlat() : null);
 				pstmt.setString(7, terminal.getVersion());
-				pstmt.setInt(8, terminal.getMxr());
-				pstmt.setInt(9, terminal.getMxf());
+				pstmt.setObject(8, terminal.getMxr() != null ? terminal.getMxr() : null);
+				pstmt.setObject(9, terminal.getMxf() != null ? terminal.getMxf() : null);
 				pstmt.setString(10, terminal.getVERFM());
 				pstmt.execute();
 				pstmt.close();
@@ -68,10 +69,10 @@ public class TerminalDaoImpl implements TerminalDao {
 			}
 		} catch (SQLException ex) {
 			LOG.error("An Exception occurred when save data. " + ex);
-			return ex.getMessage();
+			return new Gson().toJson(ex.getMessage());
 		}catch (Exception ex) {
             LOG.error("An Exception occurred when save data. " + ex);
-            return ex.getMessage();
+            return new Gson().toJson(ex.getMessage());
         }
         return null;
     }
@@ -168,14 +169,14 @@ public class TerminalDaoImpl implements TerminalDao {
 				
 				pstmt.setString(1, terminal.getSerial());
 				pstmt.setString(2, terminal.getModel());
-				pstmt.setInt(3, terminal.getSam());
+				pstmt.setObject(3, terminal.getSam() != null ? terminal.getSam() : null);
 				pstmt.setString(4, terminal.getPtid());
-				pstmt.setInt(5, terminal.getPlat());
+				pstmt.setObject(5, terminal.getPlat() != null ? terminal.getPlat() : null);
 				pstmt.setString(6, terminal.getVersion());
-				pstmt.setInt(7, terminal.getMxr());
-				pstmt.setInt(8, terminal.getMxf());
+				pstmt.setObject(7, terminal.getMxr() != null ? terminal.getMxr() : null);
+				pstmt.setObject(8, terminal.getMxf() != null ? terminal.getMxf() : null);
 				pstmt.setString(9, terminal.getVERFM());
-				pstmt.setInt(10, terminal.getLogic());
+				pstmt.setObject(10, terminal.getLogic());
 				pstmt.execute();
 				pstmt.close();
 				st.close();
@@ -186,7 +187,7 @@ public class TerminalDaoImpl implements TerminalDao {
 			}
 		} catch (SQLException ex) {
             LOG.error("An Exception occurred when update data. " + ex);
-            return ex.toString();
+            return new Gson().toJson(ex.toString());
         }catch (Exception ex) {
             LOG.error("An Exception occurred when update data. " + ex);
             return ex.toString();

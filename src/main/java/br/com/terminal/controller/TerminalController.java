@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,7 +40,7 @@ public class TerminalController {
 	@RequestMapping(method=RequestMethod.POST, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> save(@RequestBody String request) {	
 		try {
-            Terminal terminalFromString = TerminalConverter
+            Terminal terminalFromString = new TerminalConverter()
                     .getTerminalFromString(request);
             String requestJson = JsonHandler
 					.parseTerminalToJson(terminalFromString);
@@ -51,7 +52,7 @@ public class TerminalController {
             if(pr.isSuccess()){
                 return new ResponseEntity<String>(terminalService.save(terminalFromString),HttpStatus.OK) ;
             }else {
-                return new ResponseEntity<String>(sb.toString(),HttpStatus.OK) ;
+                return new ResponseEntity<String>(new Gson().toJson(sb.toString()),HttpStatus.OK) ;
             }
         } catch (IOException e) {
             return new ResponseEntity<String>(e.toString(),HttpStatus.OK) ;
